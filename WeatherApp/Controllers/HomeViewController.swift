@@ -7,7 +7,15 @@
 
 import UIKit
 import CoreLocation
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+// AlertViewHandlerProtocol defines method to show message using UIAlertController.
+// HomeViewController provide the actual implementation
+protocol AlertViewHandlerProtocol {
+    func alertView(title: String, message: String)
+}
+
+// HomeViewController is the initial view controller
+class HomeViewController: UIViewController {
 
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -15,12 +23,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var sortButton: UIButton!
     private var isDateDsc: Bool = false
+    // object of CLLocationManager is createdto receive lattitude and longitude for getting current location
     lazy var locationManager: CLLocationManager? = {
         let locationData =  CLLocationManager()
         return locationData
     }()
     var weatherVM: WeatherViewModel = WeatherViewModel()
     var weatherData: Weather?
+    // sortButtonAction method is used to sort data in the tableview based on date
     @IBAction func sortButtonAction(_ sender: Any) {
         if self.isDateDsc {
             self.weatherData?.list.sort(by: {$0.date < $1.date})
@@ -38,12 +48,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.locationManager?.delegate = self
-        self.locationManager?.requestWhenInUseAuthorization()
-        self.locationManager?.requestLocation()
+        self.getLocation()
         self.searchTextField.delegate = self
         self.searchTextField.placeholder = Constants.searchPlaceHolder
         self.weatherVM.alertViewDelegate = self
+        
         self.weatherVM.result.bind { [weak self] result in
             if result != nil {
                 self?.weatherData = result
@@ -53,6 +62,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         self?.temperatureLabel.text = String(temperatureString)
                     }
                     self?.cityLabel.text = self?.weatherData?.city.name
+                    // Set sort button image
                     if let image = UIImage(named: Constants.dsc_image) {
                         self?.sortButton.setImage(image, for: .normal)
                     }
@@ -60,10 +70,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
+    // Request the location and update the location. Set HomeViewController as the delegate of CLLocationManager
+    func getLocation() {
+        self.locationManager?.delegate = self
+        self.locationManager?.requestWhenInUseAuthorization()
+        self.locationManager?.requestLocation()
+        self.locationManager?.startUpdatingLocation()
+    }
 }
+// MARK: Delegate methods of Location Manager to report location-related events
 extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
+            // Location is received. So call weatherWebApi by sending location details and fetch the data
             let inputData = WeatherInput(
                 lat: String(describing: location.coordinate.latitude),
                 lon: String(describing: location.coordinate.longitude),
@@ -76,7 +95,8 @@ extension HomeViewController: CLLocationManagerDelegate {
         print(error)
     }
 }
-extension HomeViewController {
+// MARK: Delegate and Datasource methods for UITableView
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.weatherData?.list.count ?? 0
     }
@@ -89,6 +109,7 @@ extension HomeViewController {
         return cell
     }
 }
+// MARK: Methods to manage the editing and validation of search text
 extension HomeViewController: UITextFieldDelegate {
     @IBAction func searchButtonTapped(_ sender: Any) {
         searchTextField.endEditing(true)
@@ -119,7 +140,9 @@ extension HomeViewController: UITextFieldDelegate {
         searchTextField.placeholder = Constants.searchPlaceHolder
     }
 }
-extension HomeViewController: AlertViewHandler {
+// MARK: Method of the custom protocol AlertViewHandlerProtocol
+// It is used to show the message using UIAlertController
+extension HomeViewController: AlertViewHandlerProtocol {
      func alertView(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

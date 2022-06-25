@@ -6,18 +6,22 @@
 //
 
 import Foundation
+
+// Use WeatherInput to create input data for weather web api
 struct WeatherInput {
     let lat: String?
     let lon: String?
     let city: String?
     let type: String?
 }
-protocol AlertViewHandler {
-    func alertView(title: String, message: String)
-}
+
+// This is the view model class for Weather data
 public class WeatherViewModel: NSObject {
     var result: Bindable<Weather?> = Bindable(nil)
-    var alertViewDelegate: AlertViewHandler?
+    var alertViewDelegate: AlertViewHandlerProtocol?
+    
+    // Create url to call weather web api and check internet connectivity.
+    // Finally call method which send request for weather data
     func fetchWeather(_ inputData: WeatherInput) {
         var urlString = ""
         if inputData.type == Constants.weatherInputLocation {
@@ -28,9 +32,11 @@ public class WeatherViewModel: NSObject {
         if NetworkManager.shared.isReachable {
             callWeatherApi(urlString)
         } else {
-            self.alertViewDelegate?.alertView(title: Constants.alertTitle, message: Constants.networkErrorMsg)
+            self.alertView(title: Constants.alertTitle, message: Constants.networkErrorMsg)
         }
     }
+    
+    // Call Weather web api
     func callWeatherApi(_ urlString: String) {
         NetworkManager.shared.performRequest(with: Weather.self, url: urlString,
                                              completion: { [weak self] result in
@@ -48,6 +54,7 @@ public class WeatherViewModel: NSObject {
                                                 }
         })
     }
+    // Tells the class who adopted the method of AlertViewHandlerProtocol to implement the same
     func alertView(title: String, message: String) {
         DispatchQueue.main.async {
             self.alertViewDelegate?.alertView(title: title, message: message)

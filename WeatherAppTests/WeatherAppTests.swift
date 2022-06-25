@@ -6,31 +6,65 @@
 //
 
 import XCTest
-@testable import weatherApp
-
+@testable import WeatherApp
 class WeatherAppTests: XCTestCase {
-
+    var sut: WeatherViewModel!
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        sut = WeatherViewModel()
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
+        try super.tearDownWithError()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    // Test network connectivity status
+    func testNetworkConnectivity() throws {
+        try XCTSkipUnless(
+            NetworkManager.shared.isReachable ,
+          "Network connectivity needed for this test.")
+
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    // Test
+    func testFetchWeatherUsingMockSession() {
+
+      // Fake Json data
+      let entryjsonString = "{\"code\":200,\"list\":[{\"main\":{\"temp\": 37.05},\"weather\":[{\"main\":\"Clear\"}], \"dt_txt\":\"2022-06-25 18:00:00\"}], \"city\": {\"name\":\"Delhi\"}}"
+      let mockData = entryjsonString.data(using: .utf8)
+
+      // Url with city name Delhi
+      let urlString = Constants.baseURL + String(format:Constants.cityBasedURL, "Delhi",Constants.apiKey)
+      guard let url = URL(string: urlString) else { return }
+      let mockedResponse = HTTPURLResponse(
+        url: url,
+        statusCode: 200,
+        httpVersion: nil,
+        headerFields: nil)
+
+      let mockedUrlSession = MockURLSession(
+        data: mockData,
+        response: mockedResponse,
+        error: nil)
+
+      NetworkManager.shared.urlSession = mockedUrlSession
+
+      let promise = expectation(description: "Value Received")
+      let inputData = WeatherInput(
+            lat: "",
+            lon: "",
+            city: "Delhi",
+            type: Constants.weatherInputCity)
+       sut.fetchWeather(inputData)
+        self.sut.result.bind { weather in
+            if weather != nil {
+                XCTAssertEqual(weather?.city.name, "Delhi")
+                promise.fulfill()
+            }
         }
+        waitForExpectations(timeout: 5, handler: nil)
     }
-
 }

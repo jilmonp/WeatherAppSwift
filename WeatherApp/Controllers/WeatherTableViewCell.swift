@@ -3,13 +3,15 @@
 //  WeatherApp
 //
 //  Created by ADMIN on 23/06/22.
-//
+// Subclass of UITableViewCell to show Date, Description and Temperature in the cell
 
 import UIKit
 class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var weatherTemperature: UILabel!
     @IBOutlet weak var weatherDescription: UILabel!
     @IBOutlet weak var weatherDate: UILabel!
+
+    // Configuring the cells by populating labels with the values of date, description and temperature for 5 days
     func configureCell(_ weatherItem: List?) {
         if let weatherDate = weatherItem?.date {
             self.weatherDate.text = weatherDate.formatDate(dateString: Constants.weatherDateFormat)
@@ -22,6 +24,7 @@ class WeatherTableViewCell: UITableViewCell {
         }
     }
 }
+// MARK: created extension of String and created a method to format the date
 extension String {
     func formatDate(dateString: String) -> String {
         let dateFormatter = DateFormatter()

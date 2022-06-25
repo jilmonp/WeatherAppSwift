@@ -3,16 +3,16 @@
 //  WeatherApp
 //
 //  Created by ADMIN on 23/06/22.
-//
 
 import Foundation
-typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Void
-protocol URLSessionProtocol {
-  func dataTask( with url: URL, completionHandler: @escaping DataTaskCompletionHandler ) -> URLSessionDataTask
-}
-extension URLSession: URLSessionProtocol { }
 
-class MockURLSession: URLSessionProtocol {
+//  Create subclasses of URLSession and URLSessionDataTask to pass fake input for unit testing.
+//  Overriding dataTask and resume methods
+//
+typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Void
+
+// MARK: Subclass of URLSession to add fake Input data
+class MockURLSession: URLSession {
   private let mockedData: Data?
   private let mockedResponse: URLResponse?
   private let mockedError: Error?
@@ -22,7 +22,8 @@ class MockURLSession: URLSessionProtocol {
     self.mockedResponse = response
     self.mockedError = error
   }
-  public func dataTask( with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
+
+  public override func dataTask( with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
       URLSessionMockDataTask(
       mockedData: mockedData,
       mockedResponse: mockedResponse,
@@ -31,6 +32,8 @@ class MockURLSession: URLSessionProtocol {
     )
   }
 }
+
+// MARK: Subclass of URLSessionDataTask 
 class URLSessionMockDataTask: URLSessionDataTask {
   private let mockedData: Data?
   private let mockedResponse: URLResponse?
@@ -48,7 +51,7 @@ class URLSessionMockDataTask: URLSessionDataTask {
     self.mockedError = mockedError
     self.completionHandler = completionHandler
   }
-
+  // overriding resume method of URLSessionTask
   override func resume() {
     completionHandler?(mockedData, mockedResponse, mockedError)
   }
