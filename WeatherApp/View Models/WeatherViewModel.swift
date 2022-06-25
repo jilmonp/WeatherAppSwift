@@ -19,7 +19,7 @@ struct WeatherInput {
 public class WeatherViewModel: NSObject {
     var result: Bindable<Weather?> = Bindable(nil)
     var alertViewDelegate: AlertViewHandlerProtocol?
-    
+
     // Create url to call weather web api and check internet connectivity.
     // Finally call method which send request for weather data
     func fetchWeather(_ inputData: WeatherInput) {
@@ -35,7 +35,7 @@ public class WeatherViewModel: NSObject {
             self.alertView(title: Constants.alertTitle, message: Constants.networkErrorMsg)
         }
     }
-    
+
     // Call Weather web api
     func callWeatherApi(_ urlString: String) {
         NetworkManager.shared.performRequest(with: Weather.self, url: urlString,

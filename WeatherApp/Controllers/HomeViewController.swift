@@ -52,7 +52,7 @@ class HomeViewController: UIViewController {
         self.searchTextField.delegate = self
         self.searchTextField.placeholder = Constants.searchPlaceHolder
         self.weatherVM.alertViewDelegate = self
-        
+
         self.weatherVM.result.bind { [weak self] result in
             if result != nil {
                 self?.weatherData = result

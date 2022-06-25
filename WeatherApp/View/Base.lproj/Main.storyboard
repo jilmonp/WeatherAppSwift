@@ -20,6 +20,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eDU-zu-szH">
                                 <rect key="frame" x="40" y="84" width="250" height="34"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="a0k-a9-uwc"/>
                                     <constraint firstAttribute="height" constant="34" id="ebB-oF-6k0"/>
@@ -37,7 +38,7 @@
                                     <constraint firstAttribute="height" constant="34" id="pKL-G7-jrw"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="GO"/>
+                                <buttonConfiguration key="configuration" style="plain" title="GO" cornerStyle="dynamic"/>
                                 <connections>
                                     <action selector="searchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2yb-y3-iHn"/>
                                 </connections>
@@ -68,7 +69,7 @@
                                     <constraint firstAttribute="height" constant="50" id="YNd-NY-gqf"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdI-h4-koh">
@@ -84,7 +85,7 @@
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bTh-8X-gSg">
                                 <rect key="frame" x="5" y="293" width="404" height="549"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="450" id="xGr-tv-csu"/>
                                 </constraints>
@@ -137,6 +138,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="Tey-Hb-m3X" secondAttribute="trailing" constant="10" id="wip-J0-F1E"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="weatherDate" destination="z7s-Qx-IKL" id="wOO-BU-ZLQ"/>
                                             <outlet property="weatherDescription" destination="BCP-p0-0qA" id="iLW-be-k6m"/>
@@ -151,7 +153,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="vdI-h4-koh" firstAttribute="leading" secondItem="dfl-kL-Rsx" secondAttribute="trailing" constant="1" id="9BX-CL-FxY"/>
                             <constraint firstItem="wOW-3V-WvD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="FGe-GX-31A"/>
@@ -191,9 +193,6 @@
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBrownColor">
             <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
