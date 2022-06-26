@@ -6,33 +6,36 @@
 // Subclass of UITableViewCell to show Date, Description and Temperature in the cell
 
 import UIKit
+enum ClimateIcon: String {
+    case clear = "Clear"
+    case rain = "Rain"
+    case snow = "Snow"
+    case clouds = "Clouds"
+}
 class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var weatherTemperature: UILabel!
-    @IBOutlet weak var weatherDescription: UILabel!
     @IBOutlet weak var weatherDate: UILabel!
-
+    @IBOutlet weak var weatherDescriptionIcon: UIImageView!
     // Configuring the cells by populating labels with the values of date, description and temperature for 5 days
-    func configureCell(_ weatherItem: List?) {
-        if let weatherDate = weatherItem?.date {
-            self.weatherDate.text = weatherDate.formatDate(dateString: Constants.weatherDateFormat)
+    func configureCell(_ weatherDay: WeatherDataUnique?) {
+        if let weatherDate = weatherDay?.day {
+            self.weatherDate.text = weatherDate
         }
-        if let weatherDescription = weatherItem?.weatherDescription[0].description {
-            self.weatherDescription.text = weatherDescription
+        if let weatherDescription = weatherDay?.climate {
+            let climate = ClimateIcon(rawValue: weatherDescription)
+            switch(climate) {
+            case .clouds:
+                self.weatherDescriptionIcon.image = UIImage(named: "clouds_icon")
+            case .rain:
+                self.weatherDescriptionIcon.image = UIImage(named: "rain_icon")
+            case .snow:
+                self.weatherDescriptionIcon.image = UIImage(named: "snow_icon")
+            default:
+                self.weatherDescriptionIcon.image = UIImage(named: "clear_icon")
+            }
         }
-        if let weatherTemperature = weatherItem?.main.temp {
-            self.weatherTemperature.text = String(describing: weatherTemperature)
+        if let weatherTemperature = weatherDay?.temperature {
+            self.weatherTemperature.text = weatherTemperature
         }
-    }
-}
-// MARK: created extension of String and created a method to format the date
-extension String {
-    func formatDate(dateString: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateString
-        guard let date = dateFormatter.date(from: self) else {
-            return self
-        }
-        dateFormatter.dateFormat = Constants.weatherDateNewFormat
-        return  dateFormatter.string(from: date)
     }
 }

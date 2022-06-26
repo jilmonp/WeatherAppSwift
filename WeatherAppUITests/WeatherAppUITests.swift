@@ -23,14 +23,14 @@ class WeatherAppUITests: XCTestCase {
     }
     // UI test of Home Page
     func testExample() throws {
-        // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
         let searchTextField = app.textFields["Search"]
         searchTextField.tap()
-        searchTextField.typeText("Delhi")
-        app/*@START_MENU_TOKEN@*/.staticTexts["GO"]/*[[".buttons[\"GO\"].staticTexts[\"GO\"]",".staticTexts[\"GO\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        let result = app.tables.staticTexts["Clear"]
+        searchTextField.typeText("Amsterdam")
+        let searchStaticText = app/*@START_MENU_TOKEN@*/.staticTexts["SEARCH"]/*[[".buttons[\"SEARCH\"].staticTexts[\"SEARCH\"]",".staticTexts[\"SEARCH\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        searchStaticText.tap()
+        let result = app.tables.staticTexts["Fri"]
         XCTAssertTrue(waitForElementToAppear(result))
     }
     func waitForElementToAppear(_ element: XCUIElement) -> Bool {

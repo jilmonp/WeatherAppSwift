@@ -21,5 +21,6 @@ struct Constants {
     static let apiErrorMsg = "API is not accessible"
     static let invalidCityMsg = "City name is invalid"
     static let weatherDateFormat = "yyyy-MM-dd HH:mm:ss"
-    static let weatherDateNewFormat = "MMMM dd',' hh a"
+    static let weatherDateNewFormat = "EE"
+    static let weatherHourNewFormat = "hh:mm"
 }

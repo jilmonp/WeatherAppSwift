@@ -33,7 +33,7 @@ class WeatherAppTests: XCTestCase {
     func testFetchWeatherUsingMockSession() {
 
       // Fake Json data
-      let entryjsonString = "{\"code\":200,\"list\":[{\"main\":{\"temp\": 37.05},\"weather\":[{\"main\":\"Clear\"}], \"dt_txt\":\"2022-06-25 18:00:00\"}], \"city\": {\"name\":\"Delhi\"}}"
+      let entryjsonString = "{\"code\":200,\"list\":[{\"main\":{\"temp\": 37.05},\"weather\":[{\"main\":\"Clear\"}], \"dt_txt\":\"2022-06-25 18:00:00\"}], \"city\": {\"name\":\"London\"}}"
       let mockData = entryjsonString.data(using: .utf8)
 
       // Url with city name Delhi
@@ -56,12 +56,12 @@ class WeatherAppTests: XCTestCase {
       let inputData = WeatherInput(
             lat: "",
             lon: "",
-            city: "Delhi",
+            city: "London",
             type: Constants.weatherInputCity)
        sut.fetchWeather(inputData)
         self.sut.result.bind { weather in
             if weather != nil {
-                XCTAssertEqual(weather?.city.name, "Delhi")
+                XCTAssertEqual(weather?.city.name, "London")
                 promise.fulfill()
             }
         }

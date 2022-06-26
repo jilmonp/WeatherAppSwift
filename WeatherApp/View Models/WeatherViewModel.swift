@@ -14,7 +14,16 @@ struct WeatherInput {
     let city: String?
     let type: String?
 }
-
+// U
+struct WeatherDataUnique {
+    var day: String?
+    var climate: String?
+    var temperature: String?
+}
+enum DateType {
+    case day
+    case hour
+}
 // This is the view model class for Weather data
 public class WeatherViewModel: NSObject {
     var result: Bindable<Weather?> = Bindable(nil)
@@ -59,5 +68,33 @@ public class WeatherViewModel: NSObject {
         DispatchQueue.main.async {
             self.alertViewDelegate?.alertView(title: title, message: message)
         }
+    }
+}
+// MARK: created extension of String and created a method to format the date
+extension String {
+    func formatDate(_ type: DateType) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = Constants.weatherDateFormat
+        guard let date = dateFormatter.date(from: self) else {
+            return self
+        }
+        switch(type) {
+        case .day:
+            dateFormatter.dateFormat = Constants.weatherDateNewFormat
+        case .hour:
+            dateFormatter.dateFormat = Constants.weatherHourNewFormat
+        }
+        return  dateFormatter.string(from: date)
+    }
+}
+extension Sequence where Iterator.Element: Hashable {
+    func unique() -> [Iterator.Element] {
+        var seen: Set<Iterator.Element> = []
+        return filter { seen.insert($0).inserted }
+    }
+}
+extension Double {
+    var cleanValue: String {
+        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
 }
