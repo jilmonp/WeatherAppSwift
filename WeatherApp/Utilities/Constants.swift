@@ -22,5 +22,5 @@ struct Constants {
     static let invalidCityMsg = "City name is invalid"
     static let weatherDateFormat = "yyyy-MM-dd HH:mm:ss"
     static let weatherDateNewFormat = "EE"
-    static let weatherHourNewFormat = "hh:mm"
+    static let weatherHourNewFormat = "h a"
 }
