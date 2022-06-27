@@ -2,19 +2,19 @@
 //  WeatherViewModel.swift
 //  WeatherApp
 //
-//  Created by ADMIN on 23/06/22.
+//  Created by Jilmon on 23/06/22.
 //
 
 import Foundation
 
-// Use WeatherInput to create input data for weather web api
+/// Use WeatherInput to create input data for weather web api
 struct WeatherInput {
     let lat: String?
     let lon: String?
     let city: String?
     let type: String?
 }
-// U
+/// to create an array of structures of weather data which is unique based on days
 struct WeatherDataUnique {
     var day: String?
     var climate: String?
@@ -24,13 +24,13 @@ enum DateType {
     case day
     case hour
 }
-// This is the view model class for Weather data
+/// This is the view model class for Weather data
 public class WeatherViewModel: NSObject {
     var result: Bindable<Weather?> = Bindable(nil)
     var alertViewDelegate: AlertViewHandlerProtocol?
 
-    // Create url to call weather web api and check internet connectivity.
-    // Finally call method which send request for weather data
+    /// Create url to call weather web api and check internet connectivity.
+    /// Finally call method which send request for weather data
     func fetchWeather(_ inputData: WeatherInput) {
         var urlString = ""
         if inputData.type == Constants.weatherInputLocation {
@@ -45,7 +45,7 @@ public class WeatherViewModel: NSObject {
         }
     }
 
-    // Call Weather web api
+    /// Call Weather web api
     func callWeatherApi(_ urlString: String) {
         NetworkManager.shared.performRequest(with: Weather.self, url: urlString,
                                              completion: { [weak self] result in
@@ -63,38 +63,10 @@ public class WeatherViewModel: NSObject {
                                                 }
         })
     }
-    // Tells the class who adopted the method of AlertViewHandlerProtocol to implement the same
+    /// Tells the class who adopted the method of AlertViewHandlerProtocol to implement the same
     func alertView(title: String, message: String) {
         DispatchQueue.main.async {
             self.alertViewDelegate?.alertView(title: title, message: message)
         }
-    }
-}
-// MARK: created extension of String and created a method to format the date
-extension String {
-    func formatDate(_ type: DateType) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = Constants.weatherDateFormat
-        guard let date = dateFormatter.date(from: self) else {
-            return self
-        }
-        switch(type) {
-        case .day:
-            dateFormatter.dateFormat = Constants.weatherDateNewFormat
-        case .hour:
-            dateFormatter.dateFormat = Constants.weatherHourNewFormat
-        }
-        return  dateFormatter.string(from: date)
-    }
-}
-extension Sequence where Iterator.Element: Hashable {
-    func unique() -> [Iterator.Element] {
-        var seen: Set<Iterator.Element> = []
-        return filter { seen.insert($0).inserted }
-    }
-}
-extension Double {
-    var cleanValue: String {
-        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
 }

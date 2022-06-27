@@ -2,7 +2,7 @@
 //  HoursCollectionViewCell.swift
 //  WeatherApp
 //
-//  Created by ADMIN on 26/06/22.
+//  Created by Jilmon on 26/06/22.
 //
 
 import UIKit
@@ -13,7 +13,7 @@ class HoursCollectionViewCell: UICollectionViewCell {
     func configure(weatherDay: List?) {
         self.timeLabel.text = weatherDay?.date.formatDate(.hour)
         if let temperature = weatherDay?.main.temp {
-            self.temperatureLabel.text = String(format: "%.0f", temperature)
+            self.temperatureLabel.text = temperature.measurementForTemperature()
         }
     }
 }

@@ -2,20 +2,20 @@
 //  NetworkManager.swift
 //  WeatherApp
 //
-//  Created by ADMIN on 23/06/22.
+//  Created by Jilmon on 23/06/22.
 //
 
 import Foundation
 import Network
 
-// These are the errors this class might return
+/// These are the errors this class might return
 enum NetworkError: Error {
     case apiDown
     case noCity
 }
 
-// This class is created to make network requests.
-// It also monitor the network accessibility using Network framework
+/// This class is created to make network requests.
+/// It also monitor the network accessibility using Network framework
 class NetworkManager {
     var urlSession: URLSession = URLSession.shared
     static let shared = NetworkManager()
@@ -23,9 +23,9 @@ class NetworkManager {
     private let monitor = NWPathMonitor()
     private var status = NWPath.Status.requiresConnection
 
-    // Create and configure path monitor
+    /// Create and configure path monitor
     // Closure gets called every time the connection status changes.
-    // Create a DispatchQueue instance for the monitor to run
+    /// Create a DispatchQueue instance for the monitor to run
     func startMonitoring() {
       monitor.pathUpdateHandler = { [weak self] path in
         self?.status = path.status
@@ -34,16 +34,16 @@ class NetworkManager {
       monitor.start(queue: queue)
     }
 
-    // Stop monitoring the connection status
+    /// Stop monitoring the connection status
     func stopMonitoring() {
       monitor.cancel()
     }
 
-    // Request data from the endpoint
-    // - Parameters
-    //   - url: the URL
-    //   - modelType: Metatype of the model. Passing type of generic parameter since T is Decodable.
-    //   - completion: The completion closure, returning a Result of either the Generic Type or an Error
+    /// Request data from the endpoint
+    /// - Parameters
+    ///   - url: the URL
+    ///   - modelType: Metatype of the model. Passing type of generic parameter since T is Decodable.
+    ///   - completion: The completion closure, returning a Result of either the Generic Type or an Error
 
     func performRequest<T: Decodable>(with modelType: T.Type, url: String, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: url) else {

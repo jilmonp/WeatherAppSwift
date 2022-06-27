@@ -2,7 +2,7 @@
 //  WeatherTableViewCell.swift
 //  WeatherApp
 //
-//  Created by ADMIN on 23/06/22.
+//  Created by Jilmon on 23/06/22.
 // Subclass of UITableViewCell to show Date, Description and Temperature in the cell
 
 import UIKit
@@ -16,7 +16,7 @@ class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var weatherTemperature: UILabel!
     @IBOutlet weak var weatherDate: UILabel!
     @IBOutlet weak var weatherDescriptionIcon: UIImageView!
-    // Configuring the cells by populating labels with the values of date, description and temperature for 5 days
+    /// Configuring the cells by populating labels with the values of date, description and temperature for 5 days
     func configureCell(_ weatherDay: WeatherDataUnique?) {
         if let weatherDate = weatherDay?.day {
             self.weatherDate.text = weatherDate

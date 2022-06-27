@@ -10,6 +10,7 @@
 		6811AF935A0EEEF07649E569 /* Pods_WeatherAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE821A5B563A862CFADB26DF /* Pods_WeatherAppTests.framework */; };
 		73A0DEE13714979642F34C49 /* Pods_WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D281C56847F4E8698DEDF0 /* Pods_WeatherApp.framework */; };
 		845369592868F7FA00DFB329 /* HoursCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845369582868F7FA00DFB329 /* HoursCollectionViewCell.swift */; };
+		84714A64286A12C600BF90B5 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84714A63286A12C600BF90B5 /* Extension.swift */; };
 		8498D8542864ACDD00B39BF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498D8532864ACDD00B39BF0 /* AppDelegate.swift */; };
 		8498D8562864ACDD00B39BF0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498D8552864ACDD00B39BF0 /* SceneDelegate.swift */; };
 		8498D8582864ACDD00B39BF0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498D8572864ACDD00B39BF0 /* HomeViewController.swift */; };
@@ -55,6 +56,7 @@
 		32BA7F52CF8CFA1A8F20D03F /* Pods_WeatherApp_WeatherAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherApp_WeatherAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CD038C43A037AAA519C89C /* Pods-WeatherApp-WeatherAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp-WeatherAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherApp-WeatherAppUITests/Pods-WeatherApp-WeatherAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		845369582868F7FA00DFB329 /* HoursCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursCollectionViewCell.swift; sourceTree = "<group>"; };
+		84714A63286A12C600BF90B5 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		8498D8502864ACDD00B39BF0 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8498D8532864ACDD00B39BF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8498D8552864ACDD00B39BF0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				8498D89E2864BCD100B39BF0 /* Bindable.swift */,
 				8498D8A02864BD3C00B39BF0 /* MockURLSession.swift */,
 				8498D8A22864BF7900B39BF0 /* Constants.swift */,
+				84714A63286A12C600BF90B5 /* Extension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				8498D8582864ACDD00B39BF0 /* HomeViewController.swift in Sources */,
 				8498D8902864B1AE00B39BF0 /* City.swift in Sources */,
 				8498D89F2864BCD100B39BF0 /* Bindable.swift in Sources */,
+				84714A64286A12C600BF90B5 /* Extension.swift in Sources */,
 				8498D8A32864BF7900B39BF0 /* Constants.swift in Sources */,
 				8498D89C2864BC8800B39BF0 /* WeatherViewModel.swift in Sources */,
 				8498D8542864ACDD00B39BF0 /* AppDelegate.swift in Sources */,
@@ -685,11 +689,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jilmon.WeatherApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jilmon.weatherapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -716,11 +720,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jilmon.WeatherApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jilmon.weatherapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

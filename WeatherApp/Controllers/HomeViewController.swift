@@ -2,19 +2,19 @@
 //  HomeViewController.swift
 //  WeatherApp
 //
-//  Created by ADMIN on 23/06/22.
+//  Created by Jilmon on 23/06/22.
 //
 
 import UIKit
 import CoreLocation
 
-// AlertViewHandlerProtocol defines method to show message using UIAlertController.
-// HomeViewController provide the actual implementation
+/// AlertViewHandlerProtocol defines method to show message using UIAlertController.
+/// HomeViewController provide the actual implementation
 protocol AlertViewHandlerProtocol {
     func alertView(title: String, message: String)
 }
 
-// HomeViewController is the initial view controller
+/// HomeViewController is the initial view controller
 class HomeViewController: UIViewController {
 
     @IBOutlet weak var cityLabel: UILabel!
@@ -26,14 +26,14 @@ class HomeViewController: UIViewController {
     private var isDateDsc: Bool = false
     var weatherDataUniqueArray: [WeatherDataUnique]?
     var listUniqueDaysArray: [List]? = []
-    // object of CLLocationManager is createdto receive lattitude and longitude for getting current location
+    /// object of CLLocationManager is createdto receive lattitude and longitude for getting current location
     lazy var locationManager: CLLocationManager? = {
         let locationData =  CLLocationManager()
         return locationData
     }()
     var weatherVM: WeatherViewModel = WeatherViewModel()
     var weatherData: Weather?
-    // sortButtonAction method is used to sort data in the tableview based on date
+    /// sortButtonAction method is used to sort data in the tableview based on date
     @IBAction func sortButtonAction(_ sender: Any) {
         self.listUniqueDaysArray?.reverse()
         if self.isDateDsc {
@@ -51,27 +51,32 @@ class HomeViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        backgroundImage.image = UIImage(named: "home_bg")
-        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
-        self.view.insertSubview(backgroundImage, at: 0)
-        self.getLocation()
         self.searchTextField.delegate = self
-        self.searchTextField.placeholder = Constants.searchPlaceHolder
         self.weatherVM.alertViewDelegate = self
-        self.weatherTableView.backgroundColor = UIColor(red: 36/255, green: 120/255, blue: 183/255, alpha: 1.0)
-        self.hoursCollectionView.backgroundColor = UIColor(red: 36/255, green: 120/255, blue: 183/255, alpha: 1.0)
+        self.prepareUI()
+        self.getLocation()
         self.updateWeatherData()
     }
-    // Setting height For UICollectionView
+    /// Setting height For UICollectionView
     override func viewDidLayoutSubviews() {
             super.viewDidLayoutSubviews()
-
             if let flowLayout = self.hoursCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 flowLayout.itemSize = CGSize(width: self.hoursCollectionView.bounds.width, height: 120)
             }
     }
-    // Using data binding to update the view
+    /// doing some UI changes programatically
+    func prepareUI() {
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "home_bg")
+        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+
+        self.searchTextField.placeholder = Constants.searchPlaceHolder
+
+        self.weatherTableView.backgroundColor = UIColor(red: 36/255, green: 120/255, blue: 183/255, alpha: 1.0)
+        self.hoursCollectionView.backgroundColor = UIColor(red: 36/255, green: 120/255, blue: 183/255, alpha: 1.0)
+    }
+    /// Using data binding to update the view
     func updateWeatherData() {
         self.weatherVM.result.bind { [weak self] result in
             if result != nil {
@@ -80,11 +85,11 @@ class HomeViewController: UIViewController {
                     self?.createListArrayOnUniqueDays(weatherDates: self?.weatherData?.list ?? [])
                     self?.weatherTableView.reloadData()
                     self?.hoursCollectionView.reloadData()
-                    if let temperatureString = self?.weatherData?.list.first?.main.temp {
-                        self?.temperatureLabel.text = String(format: "%.0f", temperatureString)
+                    if let temperature = self?.weatherData?.list.first?.main.temp {
+                       self?.temperatureLabel.text = temperature.measurementForTemperature()
                     }
                     self?.cityLabel.text = self?.weatherData?.city.name
-                    // Set sort button image
+                    /// Set sort button image
                     if let image = UIImage(named: Constants.dsc_image) {
                         self?.sortButton.setImage(image, for: .normal)
                     }
@@ -92,7 +97,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    // to show the days temperature, unique days should be selected from the weather model
+    /// to show the days temperature, unique days should be selected from the weather model
     func createListArrayOnUniqueDays(weatherDates: [List]) {
         self.listUniqueDaysArray = []
         var daysArray: [String] = []
@@ -107,7 +112,7 @@ class HomeViewController: UIViewController {
             }
        }
     }
-    // Request the location and update the location. Set HomeViewController as the delegate of CLLocationManager
+    /// Request the location and update the location. Set HomeViewController as the delegate of CLLocationManager
     func getLocation() {
         self.locationManager?.delegate = self
         self.locationManager?.requestWhenInUseAuthorization()
@@ -119,7 +124,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            // Location is received. So call weatherWebApi by sending location details and fetch the data
+            /// Location is received. So call weatherWebApi by sending location details and fetch the data
             let inputData = WeatherInput(
                 lat: String(describing: location.coordinate.latitude),
                 lon: String(describing: location.coordinate.longitude),
@@ -146,7 +151,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         weatherDataUnique.day = self.listUniqueDaysArray?[indexPath.row].date.formatDate(.day)
         weatherDataUnique.climate = self.listUniqueDaysArray?[indexPath.row].weatherDescription[0].description
         if let temperatureValue = self.listUniqueDaysArray?[indexPath.row].main.temp {
-            weatherDataUnique.temperature = String(format: "%.0f", temperatureValue)
+            weatherDataUnique.temperature = temperatureValue.measurementForTemperature()
         }
         cell.configureCell(weatherDataUnique)
         return cell
@@ -184,7 +189,7 @@ extension HomeViewController: UITextFieldDelegate {
     }
 }
 // MARK: Method of the custom protocol AlertViewHandlerProtocol
-// It is used to show the message using UIAlertController
+/// It is used to show the message using UIAlertController
 extension HomeViewController: AlertViewHandlerProtocol {
      func alertView(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -193,7 +198,7 @@ extension HomeViewController: AlertViewHandlerProtocol {
     }
 }
 // MARK: Delegate and Datasource methods for UICollectionView
-// It is used to show weather data in hourly bases in collection view
+/// It is used to show weather data in hourly bases in collection view
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {

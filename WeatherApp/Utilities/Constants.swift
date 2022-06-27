@@ -2,14 +2,14 @@
 //  Constants.swift
 //  WeatherApp
 //
-//  Created by ADMIN on 23/06/22.
+//  Created by Jilmon on 23/06/22.
 //
 
 import Foundation
 struct Constants {
     static let apiKey = "eff8d26ad3b725c3e9fc01609b54819a"
     static let baseURL = "https://api.openweathermap.org/data/2.5/forecast?"
-    static let locationBasedURL = "lat=%@&lon=%@&appid=%@"
+    static let locationBasedURL = "lat=%@&lon=%@&units=metric&appid=%@"
     static let cityBasedURL = "q=%@&units=metric&appid=%@"
     static let dsc_image = "date_dsc"
     static let asc_image = "date_asc"

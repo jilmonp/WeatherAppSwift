@@ -2,7 +2,7 @@
 //  WeatherAppTests.swift
 //  WeatherAppTests
 //
-//  Created by ADMIN on 23/06/22.
+//  Created by Jilmon on 23/06/22.
 //
 
 import XCTest
@@ -10,18 +10,18 @@ import XCTest
 class WeatherAppTests: XCTestCase {
     var sut: WeatherViewModel!
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        /// Put setup code here. This method is called before the invocation of each test method in the class.
         try super.setUpWithError()
         sut = WeatherViewModel()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        /// Put teardown code here. This method is called after the invocation of each test method in the class.
         sut = nil
         try super.tearDownWithError()
     }
 
-    // Test network connectivity status
+    /// Test network connectivity status
     func testNetworkConnectivity() throws {
         try XCTSkipUnless(
             NetworkManager.shared.isReachable ,
@@ -29,14 +29,14 @@ class WeatherAppTests: XCTestCase {
 
     }
 
-    // Test
+    /// Test
     func testFetchWeatherUsingMockSession() {
 
-      // Fake Json data
+      /// Fake Json data
       let entryjsonString = "{\"code\":200,\"list\":[{\"main\":{\"temp\": 37.05},\"weather\":[{\"main\":\"Clear\"}], \"dt_txt\":\"2022-06-25 18:00:00\"}], \"city\": {\"name\":\"London\"}}"
       let mockData = entryjsonString.data(using: .utf8)
 
-      // Url with city name Delhi
+      /// Url with city name Delhi
       let urlString = Constants.baseURL + String(format:Constants.cityBasedURL, "Delhi",Constants.apiKey)
       guard let url = URL(string: urlString) else { return }
       let mockedResponse = HTTPURLResponse(

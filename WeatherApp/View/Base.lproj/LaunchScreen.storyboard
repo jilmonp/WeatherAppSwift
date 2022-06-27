@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="7ke-96-9pe">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="7ke-96-9pe">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="897"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -26,7 +26,7 @@
                         <constraints>
                             <constraint firstItem="7ke-96-9pe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3jh-fh-8zC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7ke-96-9pe" secondAttribute="trailing" id="LCM-qE-f5D"/>
-                            <constraint firstItem="7ke-96-9pe" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="aYP-68-1nC"/>
+                            <constraint firstItem="7ke-96-9pe" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="35" id="aYP-68-1nC"/>
                             <constraint firstItem="7ke-96-9pe" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="lzY-K7-YyM"/>
                         </constraints>
                     </view>
