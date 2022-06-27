@@ -61,6 +61,18 @@ class HomeViewController: UIViewController {
         self.weatherVM.alertViewDelegate = self
         self.weatherTableView.backgroundColor = UIColor(red: 36/255, green: 120/255, blue: 183/255, alpha: 1.0)
         self.hoursCollectionView.backgroundColor = UIColor(red: 36/255, green: 120/255, blue: 183/255, alpha: 1.0)
+        self.updateWeatherData()
+    }
+    // Setting height For UICollectionView
+    override func viewDidLayoutSubviews() {
+            super.viewDidLayoutSubviews()
+
+            if let flowLayout = self.hoursCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+                flowLayout.itemSize = CGSize(width: self.hoursCollectionView.bounds.width, height: 120)
+            }
+    }
+    // Using data binding to update the view
+    func updateWeatherData() {
         self.weatherVM.result.bind { [weak self] result in
             if result != nil {
                 self?.weatherData = result
@@ -80,14 +92,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    // For UICollectionView
-    override func viewDidLayoutSubviews() {
-            super.viewDidLayoutSubviews()
-
-            if let flowLayout = self.hoursCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                flowLayout.itemSize = CGSize(width: self.hoursCollectionView.bounds.width, height: 120)
-            }
-    }
+    // to show the days temperature, unique days should be selected from the weather model
     func createListArrayOnUniqueDays(weatherDates: [List]) {
         self.listUniqueDaysArray = []
         var daysArray: [String] = []
@@ -188,24 +193,18 @@ extension HomeViewController: AlertViewHandlerProtocol {
     }
 }
 // MARK: Delegate and Datasource methods for UICollectionView
+// It is used to show weather data in hourly bases in collection view
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.weatherData?.list.count ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hoursCell", for: indexPath) as! HoursCollectionViewCell
-        cell.timeLabel.text = self.weatherData?.list[indexPath.row].date.formatDate(.hour)
-        if let temperature = self.weatherData?.list[indexPath.row].main.temp {
-            cell.temperatureLabel.text = String(format: "%.0f", temperature)
-        }
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hoursCell", for: indexPath) as! HoursCollectionViewCell
+        cell.configure(weatherDay: self.weatherData?.list[indexPath.row])
         return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       // print(indexPath.item + 1)
     }
 }
